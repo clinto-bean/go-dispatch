@@ -3,19 +3,31 @@ package commands
 // declare commands here
 
 type Command struct {
-	name string
-	level int
-	path string
+	Name string
+	Level int
+	Path string
+	Description string
+	Status int
 }
 
 type List []Command 
 
-var A = Command{
-	name: "test",
-	level: 0,
-	path: "#",
+var commandHelp = Command{
+	Name: "help",
+	Level: 0,
+	Path: "#",
+	Description: "display all commands",
+	Status: 0,
+}
+
+var commandExit = Command{
+	Name: "exit",
+	Level: 0,
+	Path: "",
+	Description: "exit program",
+	Status: 1,
 }
 
 var Commands = List{
-	A,
+	commandHelp, commandExit,
 }

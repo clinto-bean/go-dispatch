@@ -4,37 +4,54 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	// "github.com/clinto-bean/internal/commands"
+	"strings"
+
+	"github.com/clinto-bean/go-dispatch/internal/commands"
 )
 
-type config struct {
-	nextCommand *string
-	prevCommand *string
-}
+// type config struct {
+// 	next *string
+// 	prev *string
+// }
 
-func RunIORepl(cfg *config) {
+func RunIORepl() int {
 	reader := bufio.NewScanner(os.Stdin)
+	fmt.Println()
+	fmt.Println("To execute a command, enter 'do [name of command] [...args]'")
+	fmt.Println()
+	fmt.Print("> ")
 	for {
-		fmt.Print("")
 		reader.Scan()
-
 		cmd := reader.Text()
-		err := validate(parse(cmd))
-		if err != nil {
-			// invalid
-			panic("Invalid")
+		words := strings.Split(cmd, " ")
+		err := parse(words)
+		if err > 0 {
+			return err
 		}
+		if err == 0 {
+			fmt.Println()
+			for _, c := range getCommands() {
+				fmt.Printf("%v: %v\n", c.Name, c.Description)
+			}
+			fmt.Println()
+		}
+		fmt.Print("> ")
 	}
 }
 
-func parse(text string) string {
-	return ""
+
+func parse(text []string) (int) {
+	switch text[0] {
+		case "help": return 0
+		case "exit": return 1
+		default: return 3
+	}
 }
 
-func validate(text string) error {
-	return nil
+func getCommands() []commands.Command {
+	return commands.Commands
 }
 
-// func getCommands() map[string]commands.Command {
-	
+// func getHandlers() map[string]handlers.Handler {
+// 	return nil
 // }
