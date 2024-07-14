@@ -8,12 +8,6 @@ import (
 	"strings"
 )
 
-// type config struct {
-// // eventually will be able to cycle through all commands using arrow keys
-// 	next *string
-// 	prev *string
-// }
-
 func Repl() error {
 	reader := bufio.NewScanner(os.Stdin)
 	fmt.Println()
