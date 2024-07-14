@@ -1,33 +1,49 @@
 package commands
 
+import "fmt"
+
 // declare commands here
 
 type Command struct {
-	Name string
-	Level int
-	Path string
+	Name        string
 	Description string
-	Status int
+	Func        func()
 }
 
-type List []Command 
+type List map[string]Command
 
-var commandHelp = Command{
-	Name: "help",
-	Level: 0,
-	Path: "#",
+var commandTest = Command{
+	Name:        "test",
 	Description: "display all commands",
-	Status: 0,
-}
-
-var commandExit = Command{
-	Name: "exit",
-	Level: 0,
-	Path: "",
-	Description: "exit program",
-	Status: 1,
+	Func: func() {
+		fmt.Println("test command executed properly")
+	},
 }
 
 var Commands = List{
-	commandHelp, commandExit,
+	"test": commandTest,
+}
+
+func Do(command string) bool {
+	c, ok := Commands[command]
+	if !ok {
+		return false
+	}
+	c.Func()
+	return true
+}
+
+func Get(name string) (Command, error) {
+	c, ok := Commands[name]
+	if !ok {
+		return Command{}, fmt.Errorf("no command found for [%v]", name)
+	}
+	return c, nil
+}
+
+func GetAll() (List, bool) {
+	if len(Commands) == 0 {
+		return List{}, false
+	}
+	return Commands, true
 }

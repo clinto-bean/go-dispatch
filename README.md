@@ -10,7 +10,7 @@ Simply add Go Dispatch to your project by importing it.
 
 If you want to run a command, simply pass its name to Command().
 
-`dispatch.Command("help")`
+`dispatch.Command("close")`
 
 If you are wanting to execute a handler, pass the name of the handler and its arguments to Handle().
 
